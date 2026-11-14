@@ -1,3 +1,7 @@
+// ─── SUPABASE CONNECTION ───
+const SUPABASE_URL = "https://eeaxdngmnwlxsjghrmbp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_BswWvU_ZtO_zIJqQpIbsFQ_YtEx-or3";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // ─── DATA ───
 const DATA = {
   "GCSE": {
