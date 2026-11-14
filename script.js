@@ -2,6 +2,96 @@
 const SUPABASE_URL = "https://eeaxdngmnwlxsjghrmbp.supabase.co";
 const SUPABASE_KEY = "sb_publishable_BswWvU_ZtO_zIJqQpIbsFQ_YtEx-or3";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ─── AUTHENTICATION FUNCTIONS ───
+async function signUp(email, password, name) {
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+    options: { data: { full_name: name } }
+  });
+  if (error) alert(error.message);
+  else alert("✅ Check your email to confirm your account!");
+}
+
+async function signIn(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+  if (error) alert(error.message);
+  else {
+    alert("✅ Welcome back!");
+    updateUserUI(data.user);
+  }
+}
+
+async function signOut() {
+  await supabase.auth.signOut();
+  alert("👋 Logged out!");
+  location.reload();
+}
+
+function getCurrentUser() {
+  return supabase.auth.currentUser;
+}
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session) updateUserUI(session.user);
+  else updateUserUI(null);
+});
+
+function updateUserUI(user) {
+  const loginBtn = document.getElementById("loginButton");
+  if (loginBtn) {
+    if (user) {
+      const name = user.user_metadata?.full_name || user.email;
+      loginBtn.innerHTML = `♡ ${name} — Log out`;
+      loginBtn.onclick = signOut;
+    } else {
+      loginBtn.innerHTML = "♡ Log in";
+      loginBtn.onclick = openLogin;
+    }
+  }
+}
+
+function showSignUp() {
+  const authTitle = document.getElementById("authTitle");
+  const loginForm = document.getElementById("loginForm");
+  const signupForm = document.getElementById("signupForm");
+  if (authTitle) authTitle.textContent = "♡ Create account";
+  if (loginForm) loginForm.style.display = "none";
+  if (signupForm) signupForm.style.display = "block";
+}
+
+function showLogin() {
+  const authTitle = document.getElementById("authTitle");
+  const loginForm = document.getElementById("loginForm");
+  const signupForm = document.getElementById("signupForm");
+  if (authTitle) authTitle.textContent = "♡ Log in";
+  if (loginForm) loginForm.style.display = "block";
+  if (signupForm) signupForm.style.display = "none";
+}
+
+async function handleSignUp() {
+  const name = document.getElementById("authName")?.value.trim();
+  const email = document.getElementById("authEmail2")?.value.trim();
+  const password = document.getElementById("authPassword2")?.value;
+  if (!name || !email || password.length < 6) {
+    return alert("Please fill all fields (password: min 6 characters)");
+  }
+  await signUp(email, password, name);
+  closeModal("loginModal");
+}
+
+async function handleSignIn() {
+  const email = document.getElementById("authEmail")?.value.trim();
+  const password = document.getElementById("authPassword")?.value;
+  if (!email || !password) return alert("Please fill in all fields");
+  await signIn(email, password);
+  closeModal("loginModal");
+}
+
 // ─── DATA ───
 const DATA = {
   "GCSE": {
@@ -281,53 +371,4 @@ function toggleTodo(i) {
 
 function deleteTodo(i) {
   const todos = JSON.parse(localStorage.getItem("todos") || "[]");
-  todos.splice(i, 1);
-  localStorage.setItem("todos", JSON.stringify(todos));
-  renderTodos();
-}
-
-// ─── THEME ───
-function openTheme() {
-  $("themeModal").classList.add("show");
-}
-
-function setTheme(t) {
-  document.documentElement.removeAttribute("data-theme");
-  if (t !== "pink") document.documentElement.dataset.theme = t;
-  localStorage.setItem("theme", t);
-  closeModal("themeModal");
-}
-
-// ─── LOGIN/PROFILE ───
-function openLogin() {
-  $("loginModal").classList.add("show");
-  const savedName = localStorage.getItem("studyName");
-  if (savedName) $("nameInput").value = savedName;
-}
-
-function saveProfile() {
-  const name = $("nameInput").value.trim();
-  if (!name) return alert("Please enter your name!");
-  localStorage.setItem("studyName", name);
-  closeModal("loginModal");
-}
-
-// ─── MODALS ───
-function closeModal(id) {
-  $(id).classList.remove("show");
-}
-
-// ─── UTILITY ───
-function esc(s) {
-  return String(s).replace(/'/g, "\\'").replace(/</g, "&lt;");
-}
-
-// ─── INITIALISE ───
-$("topicsStat").textContent = localStorage.getItem("topicsOpened") || "0";
-$("quizStat").textContent = localStorage.getItem("quizCount") || "0";
-renderTodos();
-
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme && savedTheme !== "pink") {
-  document.documentElement.dataset.theme = savedTheme;
-}
+ 
