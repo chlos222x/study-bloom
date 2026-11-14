@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StudyBloom — Revision Hub</title>
+<style>
+:root{--bg:#fff9fc;--card:#fff;--text:#28242a;--muted:#776e77;--accent:#df91b0;--soft:#fff0f6;--accent2:#f4c9da;--line:#eadde4;--ok:#8eb79a;--shadow:0 12px 35px rgba(70,45,60,.1)}
+[data-theme=lavender]{--bg:#faf9ff;--accent:#a596e2;--soft:#f0eeff;--accent2:#d9d3fb;--line:#e3dff1}
+[data-theme=blue]{--bg:#f7fbff;--accent:#82b6df;--soft:#e9f4ff;--accent2:#cce4f7;--line:#dbe8f2}
+[data-theme=sage]{--bg:#f7fcf8;--accent:#89b39a;--soft:#eaf5ed;--accent2:#d2e7d7;--line:#dbe8dd}
+[data-theme=peach]{--bg:#fffaf6;--accent:#e9a079;--soft:#fff0e8;--accent2:#f7d1bb;--line:#eee0d6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}
+.top{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);background:#ffffffd9;backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}.brand{font-weight:850;font-size:18px}.brand span{color:var(--accent)}.topright{display:flex;gap:7px}.ghost{border:0;background:transparent;padding:9px 11px;border-radius:10px}.ghost:hover{background:var(--soft)}
+.hero,.main{max-width:1240px;margin:auto;padding:0 24px}.banner{height:190px;margin-top:25px;border-radius:22px;background:linear-gradient(135deg,var(--accent2),#fff2f7 55%,var(--accent2));position:relative;overflow:hidden;box-shadow:var(--shadow)}.banner:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:#ffffff55;right:-80px;top:-140px}.banner:after{content:"✿";position:absolute;left:42px;bottom:-12px;font-size:72px;color:#fff;filter:drop-shadow(0 5px 5px #8c587033)}
+h1{font-size:40px;letter-spacing:-1.5px;margin:23px 0 5px}.sub{color:var(--muted);margin:0}.quotes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:21px 0}.quote{background:var(--soft);border:1px solid var(--line);padding:19px;border-radius:17px}
+.layout{display:grid;grid-template-columns:2fr .8fr;gap:24px;margin-bottom:60px}.panel{background:var(--card);border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);overflow:hidden}.pad{padding:21px}.title{display:flex;justify-content:space-between;align-items:center;gap:10px}.title h2{margin:0;font-size:20px}.muted{color:var(--muted);font-size:13px}
+.stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:17px 0}.step{padding:10px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:12px;background:var(--bg)}.step.active{border-color:var(--accent);background:var(--soft);color:var(--text)}.step b{display:block}.num{display:inline-grid;place-items:center;width:23px;height:23px;border-radius:50%;background:var(--accent2);margin-right:5px}.step.active .num{background:var(--accent);color:white}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}.tab{border:1px solid var(--line);background:var(--soft);padding:9px 13px;border-radius:999px;font-weight:700}.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:10px 12px;outline:0;width:100%}.field:focus{border-color:var(--accent)}.field:disabled{opacity:.5}
+.note{margin:12px 0;padding:11px 13px;border-radius:12px;background:var(--soft);font-size:13px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:14px}.subject{position:relative;border:1px solid var(--line);border-radius:16px;padding:15px;min-height:175px;background:linear-gradient(150deg,#fff,var(--soft))}.subject .emoji{font-size:28px}.subject h3{margin:8px 0 5px}.subject p{font-size:12px;color:var(--muted);line-height:1.4}.pill{display:inline-block;background:var(--accent2);padding:5px 8px;border-radius:99px;font-size:10px;font-weight:750}.open{position:absolute;right:12px;bottom:12px;background:var(--text);color:#fff;border:0;border-radius:9px;padding:8px 10px;font-size:12px}
+.side{display:flex;flex-direction:column;gap:17px}.todo{display:flex;gap:9px;align-items:center;background:var(--soft);padding:10px;border-radius:11px;margin-top:8px}.todo.done span{text-decoration:line-through;color:var(--muted)}.todo .del{margin-left:auto;border:0;background:transparent;color:var(--muted)}.add{display:flex;gap:7px;margin-top:13px}.primary{background:var(--accent);border:0;color:#fff;border-radius:10px;padding:10px 14px;font-weight:750}.secondary{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:var(--soft);border-radius:13px;padding:13px}.stat strong{display:block;font-size:23px}.stat small{color:var(--muted)}
+.video{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.video:last-child{border:0}.play{width:34px;height:34px;border-radius:10px;background:var(--accent2);display:grid;place-items:center}.video a{color:var(--text);font-weight:700;text-decoration:none}.video small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.modal{display:none;position:fixed;inset:0;background:#241b2380;z-index:30;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{width:min(650px,100%);max-height:90vh;overflow:auto;background:var(--card);border-radius:20px;padding:22px;box-shadow:0 30px 80px #0004}.close{float:right;background:transparent;border:0;font-size:23px}.dialog h2{margin-top:0}.contentbox{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.quizq{padding:15px;border:1px solid var(--line);border-radius:14px;margin:10px 0}.quizq label{display:block;padding:7px;margin-top:5px;background:var(--soft);border-radius:8px}.result{padding:12px;border-radius:11px;background:var(--soft);margin-top:10px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.hero,.main{padding:0 15px}.banner{height:155px}h1{font-size:31px}.quotes{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.filters{grid-template-columns:1fr}.stepper{grid-template-columns:1fr 1fr}.top{padding:0 12px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Study<span>Bloom</span> ✿</div>
+  <div class="topright">
+    <button class="ghost" onclick="openTheme()">🎨 Theme</button>
+    <button class="ghost" id="loginButton" onclick="openLogin()">♡ Log in</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="banner"></div>
+  <h1>Revision Planner ♡</h1>
+  <p class="sub">A calm place to organise your GCSE, A Level and BTEC revision.</p>
+  <div class="quotes"><div class="quote">🪼 “Progress counts, even when it feels small.”</div><div class="quote">✨ “Start where you are and change the ending.”</div></div>
+</section>
+
+<main class="main">
+<div class="layout">
+<section class="panel">
+<div class="pad">
+<div class="title"><h2>♡ Revision</h2><span class="muted" id="status">Choose your course</span></div>
+<div class="stepper"><div class="step active" id="s1"><span class="num">1</span><b>Qualification</b></div><div class="step" id="s2"><span class="num">2</span><b>Subject</b></div><div class="step" id="s3"><span class="num">3</span><b>Exam board</b></div><div class="step" id="s4"><span class="num">4</span><b>Topics</b></div></div>
+<div class="tabs">
+<button class="tab" onclick="setQualification('GCSE',this)">GCSE</button>
+<button class="tab" onclick="setQualification('A Level',this)">A Level</button>
+<button class="tab" onclick="setQualification('BTEC',this)">BTEC</button>
+</div>
+<div class="filters">
+<select id="subject" class="field" disabled><option>Choose a subject…</option></select>
+<select id="board" class="field" disabled><option>Choose an exam board…</option></select>
+</div>
+<div class="note" id="note">Choose GCSE, A Level or BTEC to begin.</div>
+<div class="cards" id="cards"></div>
+</div>
+</section>
+
+<aside class="side">
+<section class="panel"><div class="pad"><div class="title"><h2>♡ To-do</h2><span class="muted" id="todoCount"></span></div><div class="add"><input id="todoInput" class="field" placeholder="Add a task"><button class="primary" onclick="addTodo()">+</button></div><div id="todos"></div></div></section>
+<section class="panel"><div class="pad"><h2 style="margin-top:0">📊 Progress</h2><div class="statgrid"><div class="stat"><strong id="topicsStat">0</strong><small>topics opened</small></div><div class="stat"><strong id="quizStat">0</strong><small>quizzes completed</small></div></div></div></section>
+<section class="panel"><div class="pad"><h2 style="margin-top:0">▶ Revision videos</h2><div class="video"><div class="play">▶</div><div><a target="_blank" href="https://www.youtube.com/results?search_query=GCSE+revision">GCSE revision videos</a><small>YouTube topic explanations</small></div></div><div class="video"><div class="play">▶</div><div><a target="_blank" href="https://www.youtube.com/results?search_query=A+level+revision">A Level revision videos</a><small>YouTube lessons and exam technique</small></div></div><div class="video"><div class="play">▶</div><div><a target="_blank" href="https://www.youtube.com/results?search_query=BTEC+revision">BTEC revision videos</a><small>YouTube guides and walkthroughs</small></div></div></div></section>
+</aside>
+</div>
+</main>
+
+<div class="modal" id="themeModal"><div class="dialog"><button class="close" onclick="closeModal('themeModal')">×</button><h2>Choose a theme</h2><p class="muted">Your choice is saved on this device.</p><div class="actions"><button class="primary" onclick="setTheme('pink')">🌸 Pink</button><button class="secondary" onclick="setTheme('lavender')">💜 Lavender</button><button class="secondary" onclick="setTheme('blue')">💙 Blue</button><button class="secondary" onclick="setTheme('sage')">🌿 Sage</button><button class="secondary" onclick="setTheme('peach')">🍑 Peach</button></div></div></div>
+
+<div class="modal" id="loginModal"><div class="dialog"><button class="close" onclick="closeModal('loginModal')">×</button><h2>♡ Your StudyBloom profile</h2><p class="muted">This demo stores your name locally. It does not collect or send your password anywhere.</p><input id="name" class="field" placeholder="Your name"><div class="actions"><button class="primary" onclick="login()">Save profile</button></div></div></div>
+
+<div class="modal" id="topicModal"><div class="dialog"><button class="close" onclick="closeModal('topicModal')">×</button><div id="topicContent"></div></div></div>
+
+<script>
+const DATA={
+"GCSE":{
+"Mathematics":["AQA","Pearson Edexcel","OCR","WJEC","Eduqas"],
+"English Language":["AQA","Pearson Edexcel","OCR","WJEC","Eduqas"],
+"English Literature":["AQA","Pearson Edexcel","OCR","WJEC","Eduqas"],
+"Biology":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Chemistry":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Physics":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Combined Science":["AQA","Pearson Edexcel","OCR","WJEC"],
+"History":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Geography":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Computer Science":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Business":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Psychology":["AQA","Pearson Edexcel","OCR"],
+"Sociology":["AQA","Pearson Edexcel","OCR"],
+"French":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Spanish":["AQA","Pearson Edexcel","OCR","WJEC"],
+"German":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Religious Studies":["AQA","Pearson Edexcel","OCR","WJEC"],
+"PE":["AQA","Pearson Edexcel","OCR"],
+"Music":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Art & Design":["AQA","Pearson Edexcel","OCR","WJEC"]},
+"A Level":{
+"Mathematics":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Further Mathematics":["AQA","Pearson Edexcel","OCR","WJEC"],
+"English Literature":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Biology":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Chemistry":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Physics":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Computer Science":["AQA","Pearson Edexcel","OCR","WJEC"],
+"History":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Geography":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Economics":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Business":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Psychology":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Sociology":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Politics":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Law":["AQA","Pearson Edexcel","OCR","WJEC"],
+"French":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Spanish":["AQA","Pearson Edexcel","OCR","WJEC"],
+"German":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Art & Design":["AQA","Pearson Edexcel","OCR","WJEC"],
+"Music":["AQA","Pearson Edexcel","OCR","WJEC"]},
+"BTEC":{
+"Business":["Pearson BTEC"],"Information Technology":["Pearson BTEC"],"Sport":["Pearson BTEC"],"Health & Social Care":["Pearson BTEC"],"Applied Science":["Pearson BTEC"],"Engineering":["Pearson BTEC"],"Creative Media":["Pearson BTEC"],"Travel & Tourism":["Pearson BTEC"],"Animal Care":["Pearson BTEC"],"Construction":["Pearson BTEC"]
+}};
+const EMOJI={Mathematics:"🔢","Biology":"🧬",Chemistry:"⚗️",Physics:"⚡","English Language":"📖","English Literature":"🖋️",History:"🏛️",Geography:"🌍","Computer Science":"💻",Business:"📈",Economics:"💷",Psychology:"🧠",Sociology:"👥",French:"🇫🇷",Spanish:"🇪🇸",German:"🇩🇪","Art & Design":"🎨",Music:"🎵",Sport:"🏃","Health & Social Care":"🩺","Applied Science":"🔬",Engineering:"⚙️","Creative Media":"🎬","Travel & Tourism":"✈️","Animal Care":"🐾",Construction:"🏗️"};
+let qualification="",subject="",board="";
+const $=id=>document.getElementById(id);
+
+function setQualification(q,btn){
+ qualification=q;subject="";board="";
+ document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+ $("subject").disabled=false;$("subject").innerHTML='<option value="">Choose a subject…</option>'+Object.keys(DATA[q]).map(s=>`<option>${s}</option>`).join("");
+ $("board").disabled=true;$("board").innerHTML='<option>Choose an exam board…</option>';
+ update();render();
+}
+$("subject").onchange=()=>{subject=$("subject").value;board="";let b=$("board");b.disabled=!subject;b.innerHTML='<option value="">Choose an exam board…</option>'+(subject?DATA[qualification][subject].map(x=>`<option>${x}</option>`).join(""):"");update();render()};
+$("board").onchange=()=>{board=$("board").value;update();render()};
+
+function update(){
+ ["s1","s2","s3","s4"].forEach(x=>$(x).classList.remove("active"));
+ $("s1").classList.add("active");if(qualification)$("s2").classList.add("active");if(subject)$("s3").classList.add("active");if(board)$("s4").classList.add("active");
+ $("status").textContent=board?"Ready to revise":subject?"Choose exam board":qualification?"Choose subject":"Choose your course";
+ $("note").innerHTML=!qualification?"Choose GCSE, A Level or BTEC to begin.":!subject?`<strong>${qualification}</strong> selected — now choose your subject.`:!board?`${qualification} → <strong>${subject}</strong> — now choose your exam board.`:`${qualification} → ${subject} → <strong>${board}</strong> — choose a topic below.`;
+}
+function render(){
+ const c=$("cards");
+ if(!qualification||!subject||!board){c.innerHTML=`<div class="subject" style="grid-column:1/-1;text-align:center"><div class="emoji">🌷</div><h3>${!qualification?"Choose a qualification":!subject?"Choose a subject":"Choose an exam board"}</h3><p>Your next step will appear here.</p></div>`;return}
+ const topics=topicList(subject);
+ c.innerHTML=topics.map((t,i)=>`<div class="subject"><div class="emoji">${EMOJI[subject]||"📚"}</div><h3>${t}</h3><p>${qualification} • ${board}</p><span class="pill">Topic ${i+1}</span><button class="open" onclick="openTopic('${esc(t)}')">Open →</button></div>`).join("");
+}
+function topicList(s){
+ const common=["Core concepts","Key terms & definitions","Exam technique","Practice questions","Past-paper practice","Revision checklist"];
+ const specific={Mathematics:["Algebra","Graphs","Geometry & measures","Statistics","Probability"],Biology:["Cell biology","Organisation","Infection & response","Bioenergetics","Ecology"],Chemistry:["Atomic structure","Bonding","Quantitative chemistry","Chemical changes","Organic chemistry"],Physics:["Energy","Electricity","Particle model","Atomic structure","Forces"],"English Language":["Reading skills","Writing skills","Language analysis","Structure","Exam practice"],"English Literature:["Characters","Themes","Context","Key quotations","Essay practice"],History:["Key events","Causes & consequences","Interpretations","Source analysis","Essay practice"],Geography:["Physical geography","Human geography","Case studies","Fieldwork","Exam practice"],"Computer Science":["Algorithms","Programming","Data","Computer systems","Cyber security"],Business:["Business objectives","Marketing","Operations","Finance","People"]};
+ return specific[s]||common;
+}
+function openTopic(t){
+ const safe=esc(t);
+ localStorage.setItem("topicsOpened",(+localStorage.getItem("topicsOpened")||0)+1);$("topicsStat").textContent=localStorage.getItem("topicsOpened");
+ const search=encodeURIComponent(`${qualification} ${subject} ${board} ${t} revision`);
+ $("topicContent").innerHTML=`<h2>${EMOJI[subject]||"📚"} ${safe}</h2><p class="muted">${qualification} • ${subject} • ${board}</p><div class="contentbox"><h3>Revision tools</h3><p>Use this area for your notes, flashcards and exam questions for <strong>${safe}</strong>.</p><div class="actions"><button class="primary" onclick="showNotes('${safe}')">📝 Notes</button><button class="secondary" onclick="showFlashcards('${safe}')">🧠 Flashcards</button><button class="secondary" onclick="showQuiz('${safe}')">❓ Quiz</button><a class="secondary" target="_blank" href="https://www.youtube.com/results?search_query=${search}" style="text-decoration:none">▶ Videos</a></div></div>`;
+ $("topicModal").classList.add("show");
+}
+function showNotes(t){$("topicContent").innerHTML+=`<div class="contentbox"><h3>📝 ${t} notes</h3><p>Write or paste your own notes here. This demo keeps the structure ready for full topic content to be added.</p><textarea class="field" rows="7" id="notes" placeholder="Your notes…"></textarea><div class="actions"><button class="primary" onclick="saveNotes('${esc(t)}')">Save notes</button></div></div>`}
+function saveNotes(t){localStorage.setItem("notes_"+t,$("notes").value);alert("Notes saved on this device.")}
+function showFlashcards(t){$("topicContent").innerHTML+=`<div class="contentbox"><h3>🧠 Flashcards</h3><p><strong>Card 1:</strong> What is a key idea from ${t}?</p><p class="muted">Tap “Show answer” to reveal the demo answer.</p><button class="secondary" onclick="this.nextElementSibling.hidden=false">Show answer</button><p hidden><strong>Answer:</strong> Add your specification-specific answer here.</p></div>`}
+function showQuiz(t){$("topicContent").innerHTML+=`<div class="contentbox"><h3>❓ Quick quiz — ${t}</h3><div class="quizq"><p><strong>1.</strong> Which is the best way to revise a topic?</p><label><input type="radio" name="q1"> Passive rereading only</label><label><input type="radio" name="q1"> Active recall and practice</label><label><input type="radio" name="q1"> Avoiding questions</label></div><button class="primary" onclick="localStorage.setItem('quizCount',(+localStorage.getItem('quizCount')||0)+1);$('quizStat').textContent=localStorage.getItem('quizCount');alert('Quiz recorded — add more questions to make this topic quiz fully specification-specific.')">Finish quiz</button></div>`}
+function esc(s){return String(s).replace(/'/g,"\\'").replace(/</g,"&lt;")}
+function closeModal(id){$(id).classList.remove("show")}
+function openTheme(){$("themeModal").classList.add("show")}
+function setTheme(t){document.documentElement.dataset.theme=t==="pink"?"":t;localStorage.setItem("theme",t);closeModal("themeModal")}
+function openLogin(){$("loginModal").classList.add("show")}
+function login(){const n=$("name").value.trim();if(!n)return alert("Please enter your name.");localStorage.setItem("studyName",n);$("loginButton").textContent="♡ "+n;closeModal("loginModal")}
+function addTodo(){const input=$("todoInput"),v=input.value.trim();if(!v)return;let a=JSON.parse(localStorage.getItem("todos")||"[]");a.push({text:v,done:false});localStorage.setItem("todos",JSON.stringify(a));input.value="";renderTodos()}
+function renderTodos(){let a=JSON.parse(localStorage.getItem("todos")||"[]");$("todos").innerHTML=a.map((x,i)=>`<div class="todo ${x.done?"done":""}"><input type="checkbox" ${x.done?"checked":""} onchange="toggleTodo(${i})"><span>${esc(x.text)}</span><button class="del" onclick="delTodo(${i})">×</button></div>`).join("");$("todoCount").textContent=a.filter(x=>!x.done).length+" left"}
+function toggleTodo(i){let a=JSON.parse(localStorage.getItem("todos")||"[]");a[i].done=!a[i].done;localStorage.setItem("todos",JSON.stringify(a));renderTodos()}
+function delTodo(i){let a=JSON.parse(localStorage.getItem("todos")||"[]");a.splice(i,1);localStorage.setItem("todos",JSON.stringify(a));renderTodos()}
+$("topicsStat").textContent=localStorage.getItem("topicsOpened")||0;$("quizStat").textContent=localStorage.getItem("quizCount")||0;renderTodos();
+const savedTheme=localStorage.getItem("theme");if(savedTheme)setTheme(savedTheme);else document.documentElement.dataset.theme="";
+const savedName=localStorage.getItem("studyName");if(savedName)$("loginButton").textContent="♡ "+savedName;
+</script>
+</body>
+</html>
